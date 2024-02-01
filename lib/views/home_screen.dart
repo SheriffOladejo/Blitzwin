@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
+import '../adapters/game.dart';
 import '../models/app_user.dart';
 import '../utilities/constants.dart';
 import '../utilities/gradient_text.dart';
@@ -167,6 +168,36 @@ Blitzwin's success story is a testament to the ever-expanding world of crypto ga
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(height: 50,),
+              Row(
+                children: [
+                  Container(
+                    width: 25,
+                    height: 25,
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset("assets/images/game_pad.svg"),
+                  ),
+                  Container(width: 10,),
+                  Text("Games you should try", style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'lato-bold',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  )),
+                ],
+              ),
+              Container(height: 20,),
+              SizedBox(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 12,
+                    itemBuilder: (context, index) {
+                      return GameAdapter();
+                    }
+                ),
+              ),
+              Container(height: 20,),
               Image.asset("assets/images/home_casino.png", fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width),
               Container(height: 15,),
               Container(
