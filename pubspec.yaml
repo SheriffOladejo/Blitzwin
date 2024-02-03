@@ -20,6 +20,7 @@ dev_dependencies:
   flutter_svg: ^1.1.5
   gradient_borders: ^1.0.0
   persistent_bottom_nav_bar: ^5.0.2
+  http: ^0.13.3
 
 flutter:
   uses-material-design: true

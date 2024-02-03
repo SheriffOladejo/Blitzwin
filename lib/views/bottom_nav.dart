@@ -126,7 +126,7 @@ class _BottomNavState extends State<BottomNav> {
     const MenuScreen(),
     HomeScreen(callback: onItemClicked),
     const CasinoScreen(),
+    const ExploreScreen(),
     const ChatsScreen(),
-    const SettingsScreen(),
   ];
 }

@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:blitzwin/adapters/game.dart';
 import 'package:flutter/material.dart';
 import '../adapters/game_payout.dart';
+import '../adapters/game_winners.dart';
 import '../utilities/constants.dart';
 import '../utilities/gradient_text.dart';
 import '../utilities/hex_color.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/app_user.dart';
 
@@ -37,11 +41,70 @@ class _CasinoScreenState extends State<CasinoScreen> {
     GamePayoutAdapter(),
   ];
 
+  Future<void> makePostRequest() async {
+
+    final apiUrl = 'https://swmd.6633663.com/testcase/index2';
+
+    // Replace the following values with your actual data
+    final agentUrl = 'https://www.camgirl.ng/blitzwin/callback.php';
+    final agentCode = 'E650';
+    final memberName = 'BLITZWIN';
+    final secretKey = 'Sfh4Oj';
+    final productId = '1002';
+    final memberPassword = 'abcd1234';
+
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Content-Type': 'application/json', // Adjust based on your API's requirements
+      },
+      body: jsonEncode({
+        'AgentURL': agentUrl,
+        'AgentCode': agentCode,
+        'MemberName': memberName,
+        'SecretKey': secretKey,
+        'ProductID': productId,
+        'MemberPassword': memberPassword,
+      }),
+    );
+
+    print("getting response");
+
+    if (response.statusCode == 200) {
+      // Request successful, handle the response here
+      print('Response: ${response.body}');
+    } else {
+      // Request failed, handle the error here
+      print('Error: ${response.statusCode}');
+    }
+  }
+
+  @override
+  void initState () {
+    super.initState();
+    makePostRequest();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor("#03070A"),
+        leading: Column(
+            children: [
+              Container(
+                  width: 80,
+                  alignment: Alignment.center,
+                  child: SvgPicture.asset("assets/images/appbar_logo.svg")
+              ),
+              const Text("BLITZWIN", style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 10,
+                  fontFamily: 'lato-bold',
+                  color: Colors.white
+              ),),
+            ],
+    ),
         actions: user == null ? [
           GestureDetector(
             onTap: () {
@@ -289,6 +352,36 @@ class _CasinoScreenState extends State<CasinoScreen> {
                 ],
               ),
               Container(height: 20,),
+              Row(
+                children: [
+                  Container(
+                    width: 23,
+                    height: 21,
+                    alignment: Alignment.center,
+                    child: SvgPicture.asset("assets/images/trophy.svg"),
+                  ),
+                  Container(width: 15,),
+                  const Text("Game winners", style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      fontFamily: 'lato-bold'
+                  ),)
+                ],
+              ),
+              Container(height: 20,),
+              SizedBox(
+                height: 110,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                    itemCount: 12,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return GameWinnersAdapter();
+                    }
+                ),
+              ),
+              Container(height: 30,),
             ],
           )
         ),
