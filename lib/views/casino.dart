@@ -48,15 +48,15 @@ class _CasinoScreenState extends State<CasinoScreen> {
     // Replace the following values with your actual data
     final agentUrl = 'https://www.camgirl.ng/blitzwin/callback.php';
     final agentCode = 'E650';
-    final memberName = 'BLITZWIN';
+    final memberName = 'E650';
     final secretKey = 'Sfh4Oj';
-    final productId = '1002';
+    final productId = '1006';
     final memberPassword = 'abcd1234';
 
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {
-        'Content-Type': 'application/json', // Adjust based on your API's requirements
+        'Content-Type': 'application/json',
       },
       body: jsonEncode({
         'AgentURL': agentUrl,
@@ -64,11 +64,9 @@ class _CasinoScreenState extends State<CasinoScreen> {
         'MemberName': memberName,
         'SecretKey': secretKey,
         'ProductID': productId,
-        'MemberPassword': memberPassword,
+        'MemberPass': memberPassword,
       }),
     );
-
-    print("getting response");
 
     if (response.statusCode == 200) {
       // Request successful, handle the response here

@@ -1,5 +1,8 @@
 import 'package:blitzwin/views/bottom_nav.dart';
 import 'package:blitzwin/views/menu.dart';
+import 'package:blitzwin/views/preferences.dart';
+import 'package:blitzwin/views/profile.dart';
+import 'package:blitzwin/views/settings.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const BottomNav(),
+      home: const PreferencesScreen(),
     );
   }
 
