@@ -200,7 +200,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Display in fiat", style: TextStyle(
+                    const Text("Display in fiat", style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w800,
                         fontSize: 14,
