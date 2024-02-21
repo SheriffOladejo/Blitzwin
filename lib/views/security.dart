@@ -137,23 +137,23 @@ class _SecurityScreenState extends State<SecurityScreen> {
               ),
             ),
             Container(height: 50,),
-            Row(
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    alignment: Alignment.center,
-                    child: SvgPicture.asset("assets/images/google.svg"),
-                  ),
-                  Container(width: 15,),
-                  Text("Enable 2FA", style: TextStyle(
-                      fontFamily: 'lato-regular',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white
-                  ),)
-                ]
-            )
+            // Row(
+            //     children: [
+            //       Container(
+            //         width: 24,
+            //         height: 24,
+            //         alignment: Alignment.center,
+            //         child: SvgPicture.asset("assets/images/google.svg"),
+            //       ),
+            //       Container(width: 15,),
+            //       Text("Enable 2FA", style: TextStyle(
+            //           fontFamily: 'lato-regular',
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w400,
+            //           color: Colors.white
+            //       ),)
+            //     ]
+            // )
           ],
         ),
       ),
