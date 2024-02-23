@@ -4,6 +4,7 @@ import 'package:blitzwin/views/preferences.dart';
 import 'package:blitzwin/views/profile.dart';
 import 'package:blitzwin/views/security.dart';
 import 'package:blitzwin/views/settings.dart';
+import 'package:blitzwin/views/splash.dart';
 import 'package:blitzwin/views/verification_complete.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const VerificationCompleteScreen(),
+      home: const SplashScreen(),
     );
   }
 

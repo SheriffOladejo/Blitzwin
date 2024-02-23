@@ -22,8 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
       body: Container(
         color: HexColor("#03070A"),
+        height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -45,5 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+
+
 
 }

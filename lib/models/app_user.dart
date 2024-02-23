@@ -1,11 +1,28 @@
 class AppUser {
-  String id;
+
+  String user_id;
   String username;
-  String dateJoined;
+  String date_joined;
+  String email;
+  String password;
+  String firstname;
+  String lastname;
+  String dob;
+  String balance;
+  String wallet;
+  String currency;
 
   AppUser({
-    this.id,
+    this.user_id,
     this.username,
-    this.dateJoined,
+    this.date_joined,
+    this.firstname,
+    this.lastname,
+    this.password,
+    this.dob,
+    this.balance,
+    this.wallet,
+    this.email,
+    this.currency
   });
 }
