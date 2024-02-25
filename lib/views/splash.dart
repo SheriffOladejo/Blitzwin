@@ -1,4 +1,7 @@
+import 'package:blitzwin/utilities/db_helper.dart';
 import 'package:blitzwin/utilities/hex_color.dart';
+import 'package:blitzwin/views/bottom_nav.dart';
+import 'package:blitzwin/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,20 +25,19 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
       body: Container(
         color: HexColor("#03070A"),
+        width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(15),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              width: 250,
-              height: 250,
+              width: 200,
+              height: 200,
               alignment: Alignment.center,
               child: SvgPicture.asset("assets/images/splash.svg"),
             ),
-            Container(height: 15,),
             Container(
               width: 175,
               height: 50,
@@ -48,6 +50,19 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  @override
+  void initState () {
+    super.initState();
+    init();
+  }
 
+  Future<void> init () async {
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNav()),
+      );
+    });
+  }
 
 }

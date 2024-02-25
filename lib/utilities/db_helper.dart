@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:blitzwin/models/app_user.dart';
 import 'package:blitzwin/models/bet.dart';
+import 'package:blitzwin/utilities/utils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -51,6 +54,8 @@ class DbHelper {
   static const String COL_WAGER_ID = "wager_id";
   static const String COL_PAYOUT_AMOUNT = "payout_amount";
   static const String COL_CREATION_DATE = "creation_date";
+
+  final utils = Utils();
 
   factory DbHelper(){
     if(helper == null){
@@ -121,10 +126,10 @@ class DbHelper {
         "$COL_GAME_ID, $COL_GAME_TYPE, $COL_OWNER, $COL_BET_AMOUNT, $COL_TRANSACTION_ID,"
         "$COL_BONUS, $COL_BUYIN, $COL_BUYOUT, $COL_CREATION_DATE, $COL_CURRENCY_ID, "
         "$COL_JACKPOT, $COL_PAYOUT_AMOUNT, $COL_PUSHBET, $COL_REFUND, $COL_ROLLBACK, "
-        "$COL_STATUS, $COL_WAGER_ID) values (${bet.game_id}, ${bet.game_type}, ${bet.owner},"
-        "${bet.bet_amount}, ${bet.transaction_id}, ${bet.bonus}, ${bet.buyin}, ${bet.buyout}, "
-        "${bet.creation_date}, ${bet.currency_id}, ${bet.jackpot}, ${bet.payout_amount}, "
-        "${bet.pushbet}, ${bet.refund}, ${bet.rollback}, ${bet.status}, ${bet.wager_id})";
+        "$COL_STATUS, $COL_WAGER_ID) values ('${bet.game_id}', '${bet.game_type}', '${bet.owner}',"
+        "'${bet.bet_amount}', '${bet.transaction_id}', '${bet.bonus}', '${bet.buyin}', '${bet.buyout}', "
+        "'${bet.creation_date}', '${bet.currency_id}', '${bet.jackpot}', '${bet.payout_amount}', "
+        "'${bet.pushbet}', '${bet.refund}', '${bet.rollback}', '${bet.status}', '${bet.wager_id}')";
     await db.execute(query);
   }
 
@@ -218,14 +223,14 @@ class DbHelper {
     String query = "insert into $TABLE_USERS ("
         "$COL_USER_ID, $COL_USERNAME, $COL_EMAIL, $COL_PASSWORD, $COL_FIRSTNAME,"
         "$COL_LASTNAME, $COL_DOB, $COL_DATE_JOINED, $COL_BALANCE, $COL_WALLET, "
-        "$COL_CURRENCY) values (${user.user_id}, ${user.username}, ${user.email},"
-        "${user.password}, ${user.firstname}, ${user.lastname}, ${user.dob},"
-        "${user.date_joined}, ${user.balance}, ${user.wallet}, ${user.currency})";
+        "$COL_CURRENCY) values ('${user.user_id}', '${user.username}', '${user.email}',"
+        "'${user.password}', '${user.firstname}', '${user.lastname}', '${user.dob}',"
+        "'${user.date_joined}', '${user.balance}', '${user.wallet}', '${user.currency}')";
     await db.execute(query);
   }
 
   Future<AppUser> getUser () async {
-    AppUser user;
+    AppUser user = null;
     Database db = await database;
     String query = "select * from $TABLE_USERS";
     List<Map<String, Object>> result = await db.rawQuery(query);
@@ -245,6 +250,34 @@ class DbHelper {
       );
     }
     return user;
+  }
+
+  Future<AppUser> getUserByEmail (String email) async {
+    AppUser user = null;
+
+    final params = {"email": email};
+    const url = "https://www.camgirl.ng/blitzwin/getUserByEmail.php";
+    final response = await utils.get(url, params);
+
+    if (response != null) {
+      final result = jsonDecode(response.body);
+      user = AppUser(
+        user_id: result["Data"]["user_id"],
+        username: result["Data"]["username"],
+        email: result["Data"]["email"],
+        password: result["Data"]["password"],
+        firstname: result["Data"]["firstname"],
+        lastname: result["Data"]["lastname"],
+        dob: result["Data"]["dob"],
+        date_joined: result["Data"]["date_joined"],
+        balance: result["Data"]["balance"],
+        wallet: result["Data"]["wallet"],
+        currency: result["Data"]["currency"],
+      );
+    }
+
+    return user;
+
   }
 
 

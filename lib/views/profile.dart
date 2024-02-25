@@ -1,4 +1,5 @@
 import 'package:blitzwin/utilities/hex_color.dart';
+import 'package:blitzwin/utilities/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  final utils = Utils();
 
   @override
   Widget build(BuildContext context) {
@@ -37,69 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           fontSize: 20,
           fontWeight: FontWeight.w800,
         ),),
-        actions: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 24,
-                height: 24,
-                alignment: Alignment.center,
-                child: Image.asset("assets/images/logos_bitcoin.png")
-              ),
-              Container(width: 8,),
-              Text("\$0.00", style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'lato-bold',
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),),
-              Container(width: 8,),
-              const Icon(CupertinoIcons.chevron_down, color: Colors.white, size: 14,)
-            ],
-          ),
-          Container(width: 15,),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Stack(
-                children: [
-                  ClipOval(
-                    child: Container(
-                        width: 24,
-                        height: 24,
-                        alignment: Alignment.center,
-                        child: Image.asset("assets/images/profile_pic.png")
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: Container(
-                      padding: EdgeInsets.all(3.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      child: Text(
-                        '1', // You can set the number of notifications here
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Container(width: 8,),
-              const Icon(CupertinoIcons.chevron_down, color: Colors.white, size: 14,),
-              Container(width: 10,)
-            ],
-          ),
-          Container(width: 15,),
-        ],
+        actions: utils.loggedInAppBar()
       ),
       body: SingleChildScrollView(
         child: Container(

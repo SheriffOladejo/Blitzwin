@@ -1,5 +1,6 @@
 import 'package:blitzwin/adapters/game_payout.dart';
 import 'package:blitzwin/adapters/game_winners.dart';
+import 'package:blitzwin/utilities/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +9,7 @@ import 'package:gradient_borders/gradient_borders.dart';
 import '../adapters/game.dart';
 import '../models/app_user.dart';
 import '../utilities/constants.dart';
+import '../utilities/db_helper.dart';
 import '../utilities/gradient_text.dart';
 import '../utilities/hex_color.dart';
 
@@ -62,7 +64,31 @@ Blitzwin's success story is a testament to the ever-expanding world of crypto ga
     GamePayoutAdapter(),
   ];
 
-  String selected_list = Constants.all;
+  String selected_list = "All";
+
+  final utils = Utils();
+
+  DbHelper helper = DbHelper();
+
+  Future<void> init () async {
+    user = await helper.getUser();
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future<void> callback () async {
+    user = await helper.getUser();
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,79 +111,7 @@ Blitzwin's success story is a testament to the ever-expanding world of crypto ga
               ),),
             ],
           ),
-          actions: user == null ? [
-            GestureDetector(
-              onTap: () {
-
-              },
-              child: Container(
-                height: 50,
-                width: 80,
-                margin: const EdgeInsets.only(top: 5, bottom: 5),
-                decoration: BoxDecoration(
-                  border: GradientBoxBorder(
-                      width: 1,
-                      gradient: LinearGradient(
-                        colors: [HexColor("#F165F6"), HexColor("#55CDFE")], // Adjust colors as needed
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      )
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                ),
-                alignment: Alignment.center,
-                child: GradientText("Login", style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  fontFamily: 'lato-regular',
-                ),
-                    gradient: LinearGradient(
-                      colors: [HexColor("#F165F6"), HexColor("#55CDFE")], // Adjust colors as needed
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    )),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-
-              },
-              child: Stack (
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                        height: 47,
-                        width: 80,
-                        margin: const EdgeInsets.only(
-
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [HexColor("#F165F6"), HexColor("#55CDFE")], // Adjust colors as needed
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text("Sign up", style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'lato-regular',
-                            color: Colors.white
-                        ),)
-                    ),
-                    Container(
-                      height: 200,
-                      width: 100,
-                      alignment: Alignment.topRight,
-                      child: SvgPicture.asset("assets/images/giftbox.svg"),
-                    )
-                  ]
-              ),
-            ),
-            Container(width: 15),
-          ] : []
+          actions: user == null ? utils.loggedOutAppbar(context, callback) : utils.loggedInAppBar()
       ),
       body: SingleChildScrollView(
         child: Container(

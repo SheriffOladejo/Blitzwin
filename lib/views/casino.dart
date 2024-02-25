@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:blitzwin/adapters/game.dart';
+import 'package:blitzwin/utilities/db_helper.dart';
 import 'package:flutter/material.dart';
 import '../adapters/game_payout.dart';
 import '../adapters/game_winners.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/app_user.dart';
+import '../utilities/utils.dart';
 
 class CasinoScreen extends StatefulWidget {
 
@@ -41,46 +43,28 @@ class _CasinoScreenState extends State<CasinoScreen> {
     GamePayoutAdapter(),
   ];
 
-  Future<void> makePostRequest() async {
+  final utils = Utils();
 
-    final apiUrl = 'https://swmd.6633663.com/testcase/index2';
+  DbHelper helper = DbHelper();
 
-    // Replace the following values with your actual data
-    final agentUrl = 'https://www.camgirl.ng/blitzwin/callback.php';
-    final agentCode = 'E650';
-    final memberName = 'E650';
-    final secretKey = 'Sfh4Oj';
-    final productId = '1006';
-    final memberPassword = 'abcd1234';
+  Future<void> init () async {
+    user = await helper.getUser();
+    setState(() {
 
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'AgentURL': agentUrl,
-        'AgentCode': agentCode,
-        'MemberName': memberName,
-        'SecretKey': secretKey,
-        'ProductID': productId,
-        'MemberPass': memberPassword,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      // Request successful, handle the response here
-      print('Response: ${response.body}');
-    } else {
-      // Request failed, handle the error here
-      print('Error: ${response.statusCode}');
-    }
+    });
   }
 
   @override
   void initState () {
     super.initState();
-    makePostRequest();
+    init();
+  }
+
+  Future<void> callback () async {
+    user = await helper.getUser();
+    setState(() {
+
+    });
   }
 
   @override
@@ -103,79 +87,7 @@ class _CasinoScreenState extends State<CasinoScreen> {
               ),),
             ],
     ),
-        actions: user == null ? [
-          GestureDetector(
-            onTap: () {
-
-            },
-            child: Container(
-              height: 50,
-              width: 80,
-              margin: const EdgeInsets.only(top: 5, bottom: 5),
-              decoration: BoxDecoration(
-                border: GradientBoxBorder(
-                    width: 1,
-                    gradient: LinearGradient(
-                      colors: [HexColor("#F165F6"), HexColor("#55CDFE")], // Adjust colors as needed
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    )
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-              ),
-              alignment: Alignment.center,
-              child: GradientText("Login", style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                fontFamily: 'lato-regular',
-              ),
-                  gradient: LinearGradient(
-                    colors: [HexColor("#F165F6"), HexColor("#55CDFE")], // Adjust colors as needed
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  )),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-
-            },
-            child: Stack (
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                      height: 47,
-                      width: 80,
-                      margin: const EdgeInsets.only(
-
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [HexColor("#F165F6"), HexColor("#55CDFE")], // Adjust colors as needed
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      ),
-                      alignment: Alignment.center,
-                      child: const Text("Sign up", style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          fontFamily: 'lato-regular',
-                          color: Colors.white
-                      ),)
-                  ),
-                  Container(
-                    height: 200,
-                    width: 100,
-                    alignment: Alignment.topRight,
-                    child: SvgPicture.asset("assets/images/giftbox.svg"),
-                  )
-                ]
-            ),
-          ),
-          Container(width: 15),
-        ] : []
+          actions: user == null ? utils.loggedOutAppbar(context, callback) : utils.loggedInAppBar()
       ),
       body: SingleChildScrollView(
         child: Container(
